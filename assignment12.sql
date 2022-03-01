@@ -120,10 +120,19 @@ join `order` as O on O.order_id = OP.order_id
 join customer as C on C.customer_id = O.customer_id
 group by C.customer_id;
 
+update `order`
+set order_date = '2014-09-11 11:47:00'
+where order_id = 3;
+
+select * from `order`;
+
 -- How much each customer is ordering on which date
-select C.customer_id, C.first_name, C.last_name, O.order_date, sum(pizza_price) as sum from order_pizza as OP
+select C.customer_id, C.first_name, C.last_name, DATE(O.order_date) as `date`, sum(pizza_price) as sum from order_pizza as OP
 join pizza as P on P.pizza_id = OP.pizza_id
 join `order` as O on O.order_id = OP.order_id
 join customer as C on C.customer_id = O.customer_id
-group by O.order_date, C.customer_id
+group by DATE(O.order_date), C.customer_id
 having C.customer_id;
+
+select DATE(order_date) from `order`;
+
